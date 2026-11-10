@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import LogoutButton from "./logout-button";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -29,9 +30,13 @@ export default async function DashboardPage() {
           </span>
         </Link>
 
-        <span className="dashboard-user">
-          {email}
-        </span>
+        <div className="dashboard-header-actions">
+          <span className="dashboard-user">
+            {email}
+          </span>
+
+          <LogoutButton />
+        </div>
       </header>
 
       <section className="dashboard-content">
@@ -134,4 +139,4 @@ export default async function DashboardPage() {
       </footer>
     </main>
   );
-      }
+}
