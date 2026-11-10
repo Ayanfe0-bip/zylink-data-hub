@@ -996,3 +996,48 @@ h2 {
 }
 
 .dashboard
+/* ZYLINK DASHBOARD HEADER ACTIONS */
+
+.dashboard-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.dashboard-logout {
+  padding: 10px 17px;
+  border: 1px solid #dce5f0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #0756b8;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.dashboard-logout:hover {
+  border-color: #0756b8;
+  background: #edf5ff;
+}
+
+.dashboard-logout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 500px) {
+  .dashboard-header-actions {
+    gap: 9px;
+  }
+
+  .dashboard-user {
+    display: none;
+  }
+
+  .dashboard-logout {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
