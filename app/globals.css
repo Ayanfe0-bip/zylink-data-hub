@@ -1041,3 +1041,178 @@ h2 {
     font-size: 12px;
   }
 }
+/* =================================
+   ZYLINK DASHBOARD SERVICE CARDS
+================================= */
+
+.dashboard-services {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  width: 100%;
+}
+
+.dashboard-service {
+  min-width: 0;
+  padding: 22px 18px;
+  border: 1px solid #e5edf7;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 7px 22px rgba(16, 44, 80, 0.045);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-service:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(16, 44, 80, 0.09);
+}
+
+.dashboard-service .service-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 19px;
+  border-radius: 14px;
+  background: #edf5ff;
+  font-size: 23px;
+}
+
+.dashboard-service h3 {
+  margin: 0 0 9px;
+  color: #102c50;
+  font-family: Manrope, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.dashboard-service p {
+  min-height: 48px;
+  margin: 0 0 17px;
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.service-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 30px;
+  background: #edf5ff;
+  color: #0756b8;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.dashboard-notice {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border: 1px solid #dceaff;
+  border-radius: 14px;
+  background: #edf5ff;
+}
+
+.dashboard-notice strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #0756b8;
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.dashboard-notice p {
+  margin: 0;
+  color: #526782;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.dashboard-footer {
+  padding: 23px 20px;
+  border-top: 1px solid #e5edf7;
+  color: #8795a8;
+  text-align: center;
+  font-size: 11px;
+}
+
+/* TABLET */
+
+@media (max-width: 850px) {
+  .dashboard-services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+  .dashboard-content {
+    padding: 35px 17px;
+  }
+
+  .dashboard-welcome {
+    margin-bottom: 25px;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 27px;
+  }
+
+  .dashboard-wallet {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .dashboard-wallet h2 {
+    font-size: 31px;
+  }
+
+  .dashboard-wallet button {
+    top: 22px;
+    right: 18px;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+
+  .wallet-notice {
+    font-size: 11px;
+  }
+
+  .dashboard-section {
+    margin-top: 35px;
+  }
+
+  .dashboard-services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .dashboard-service {
+    padding: 17px 14px;
+    border-radius: 14px;
+  }
+
+  .dashboard-service .service-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 21px;
+  }
+
+  .dashboard-service h3 {
+    font-size: 14px;
+  }
+
+  .dashboard-service p {
+    min-height: 60px;
+    font-size: 11px;
+  }
+
+  .dashboard-notice {
+    padding: 17px;
+  }
+}
