@@ -858,3 +858,141 @@ h2 {
     font-size: 25px;
   }
 }
+/* =================================
+   ZYLINK CUSTOMER DASHBOARD
+================================= */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: #f5f8fd;
+  color: #102c50;
+}
+
+.dashboard-header {
+  min-height: 76px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e7edf5;
+}
+
+.dashboard-header .auth-brand {
+  margin: 0;
+}
+
+.dashboard-user {
+  max-width: 55%;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 55px 22px;
+}
+
+.dashboard-welcome {
+  margin-bottom: 30px;
+}
+
+.dashboard-welcome h1 {
+  margin: 12px 0 8px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.dashboard-welcome p {
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.dashboard-wallet {
+  position: relative;
+  overflow: hidden;
+  padding: 30px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #0756b8, #087be0);
+  color: #ffffff;
+  box-shadow: 0 15px 35px rgba(7, 86, 184, 0.16);
+}
+
+.wallet-label {
+  display: block;
+  margin-bottom: 12px;
+  color: #dcecff;
+  font-size: 13px;
+}
+
+.dashboard-wallet h2 {
+  margin: 0 0 8px;
+  font-size: 35px;
+  font-weight: 800;
+}
+
+.wallet-note {
+  color: #e0edff;
+  font-size: 12px;
+}
+
+.dashboard-wallet button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #0756b8;
+  font-weight: 700;
+}
+
+.dashboard-wallet button:disabled {
+  opacity: 0.85;
+  cursor: not-allowed;
+}
+
+.wallet-notice {
+  margin: 22px 0 0;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e0edff;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dashboard-section {
+  margin-top: 45px;
+}
+
+.dashboard-section-heading {
+  margin-bottom: 20px;
+}
+
+.dashboard-section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.dashboard-section-heading p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+.dashboard-services {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.dashboard
