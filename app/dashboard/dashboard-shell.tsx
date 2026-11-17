@@ -101,14 +101,15 @@ return (
 
     <div className="zy-nav-label">MY ACCOUNT</div>
 
-    <button
-      className={`zy-nav-link ${active === "My Profile" ? "active" : ""}`}
-      onClick={() => navigate("My Profile")}
-    >
-      <span>♙</span>
-      My Profile
-    </button>
-
+    <Link
+  href="/profile"
+  className="zy-nav-link"
+  onClick={() => setSidebarOpen(false)}
+>
+  <span>♙</span>
+  My Profile
+  <b className="zy-nav-arrow">↗</b>
+</Link>
     <button
       className={`zy-nav-link ${active === "Settings" ? "active" : ""}`}
       onClick={() => navigate("Settings")}
