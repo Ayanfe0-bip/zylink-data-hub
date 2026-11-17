@@ -89,13 +89,15 @@ return (
       <b className="zy-nav-arrow">↗</b>
     </Link>
 
-    <button
-      className={`zy-nav-link ${active === "Transaction History" ? "active" : ""}`}
-      onClick={() => navigate("Transaction History")}
-    >
-      <span>↔</span>
-      Transaction History
-    </button>
+    <Link
+  href="/transactions"
+  className="zy-nav-link"
+  onClick={() => setSidebarOpen(false)}
+>
+  <span>↔</span>
+  Transaction History
+  <b className="zy-nav-arrow">↗</b>
+</Link>
 
     <div className="zy-nav-label">MY ACCOUNT</div>
 
