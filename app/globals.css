@@ -1365,7 +1365,7 @@ h2 {
   background: #159b55;
 }
 
-.network-symbol.9mobile {
+.network-symbol[class~="9mobile"] {
   background: #078d66;
 }
 
