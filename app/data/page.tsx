@@ -14,6 +14,7 @@ export default function DataPage() {
   const [selectedPlan, setSelectedPlan] = useState<DataPlan | null>(null);
   const [phone, setPhone] = useState("");
   const [notice, setNotice] = useState("");
+  const [isPurchasing, setIsPurchasing] = useState(false);
 
   const plans = network
     ? MELE_DATA_PLANS.filter((plan) => plan.network === network)
@@ -28,10 +29,49 @@ export default function DataPage() {
     setNotice("");
   }
 
-  function handlePurchaseClick() {
-    setNotice(
-      "Your order details are ready. Purchase testing will be connected next; no data has been purchased."
-    );
+  async function handlePurchaseClick() {
+    if (!network || !selectedPlan || !validPhone || isPurchasing) {
+      return;
+    }
+
+    setIsPurchasing(true);
+    setNotice("Submitting your test order. Please wait...");
+
+    try {
+      const response = await fetch("/api/mele/purchase", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          network,
+          planId: selectedPlan.planId,
+          phone,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        setNotice(
+          result.message ||
+            "The test order could not be processed. Please try again."
+        );
+        return;
+      }
+
+      setNotice(
+        "Test order submitted successfully. " +
+          (result.result?.message || "Provider request accepted.") +
+          " This is a simulated test transaction, not a live purchase."
+      );
+    } catch {
+      setNotice(
+        "We could not reach the purchase service. Please check your connection and try again."
+      );
+    } finally {
+      setIsPurchasing(false);
+    }
   }
 
   return (
@@ -41,7 +81,10 @@ export default function DataPage() {
           <span className="data-brand-mark">Z</span>
           <span>zylink</span>
         </a>
-        <a href="/" className="back-home">← Back home</a>
+
+        <a href="/" className="back-home">
+          ← Back home
+        </a>
       </header>
 
       <section className="data-container">
@@ -74,7 +117,9 @@ export default function DataPage() {
                 <span className={`network-symbol ${item.toLowerCase()}`}>
                   {item === "9MOBILE" ? "9" : item.charAt(0)}
                 </span>
+
                 <span>{item}</span>
+
                 {network === item && (
                   <span className="selected-check">✓</span>
                 )}
@@ -88,7 +133,9 @@ export default function DataPage() {
                 <span className="step-number">2</span>
                 <div>
                   <h2>Select a data plan</h2>
-                  <p>{plans.length} available bundles for {network}.</p>
+                  <p>
+                    {plans.length} available bundles for {network}.
+                  </p>
                 </div>
               </div>
 
@@ -104,15 +151,18 @@ export default function DataPage() {
                   const plan = plans.find(
                     (item) => item.planId === Number(event.target.value)
                   );
+
                   setSelectedPlan(plan || null);
                   setNotice("");
                 }}
               >
                 <option value="">Choose your preferred data plan</option>
+
                 {plans.map((plan) => (
                   <option key={plan.planId} value={plan.planId}>
                     {plan.name} • {plan.validity} • ₦
-                    {plan.providerPrice.toLocaleString("en-NG")} ({plan.category})
+                    {plan.providerPrice.toLocaleString("en-NG")} (
+                    {plan.category})
                   </option>
                 ))}
               </select>
@@ -150,7 +200,8 @@ export default function DataPage() {
                 />
 
                 <small className="field-hint">
-                  Use an 11-digit Nigerian number or the 234 international format.
+                  Use an 11-digit Nigerian number or the 234 international
+                  format.
                 </small>
 
                 {phone.length > 0 && !validPhone && (
@@ -164,13 +215,18 @@ export default function DataPage() {
                 <div className="purchase-amount-card">
                   <div>
                     <span className="amount-label">Amount to pay</span>
+
                     <strong className="amount-value">
-                      ₦{selectedPlan.providerPrice.toLocaleString("en-NG")}
+                      ₦
+                      {selectedPlan.providerPrice.toLocaleString("en-NG")}
                     </strong>
+
                     <small>
-                      {network} · {selectedPlan.name} · {selectedPlan.validity}
+                      {network} · {selectedPlan.name} ·{" "}
+                      {selectedPlan.validity}
                     </small>
                   </div>
+
                   <span className="amount-check">✓</span>
                 </div>
               )}
@@ -180,28 +236,39 @@ export default function DataPage() {
                   type="button"
                   className="data-purchase-button"
                   onClick={handlePurchaseClick}
+                  disabled={isPurchasing}
                 >
-                  Purchase Now <span aria-hidden="true">→</span>
+                  {isPurchasing ? "Processing test order..." : "Purchase Now"}
+
+                  <span aria-hidden="true">
+                    {isPurchasing ? "…" : "→"}
+                  </span>
                 </button>
               )}
             </>
           )}
 
           {notice && (
-            <div className="purchase-feedback" role="status">
+            <div
+              className="purchase-feedback"
+              role="status"
+              aria-live="polite"
+            >
               {notice}
             </div>
           )}
 
           <div className="testing-notice">
             <span>ⓘ</span>
+
             <p>
-              Testing mode: this page currently displays your order details
-              only. No payment will be taken and no data will be sent yet.
+              Test mode is enabled. No customer payment is collected. Only the
+              provider's simulated test service is called; live purchases are
+              disabled.
             </p>
           </div>
         </section>
       </section>
     </main>
   );
-}
+                  }
