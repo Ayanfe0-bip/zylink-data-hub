@@ -1546,3 +1546,477 @@ h2 {
     padding: 13px 10px;
   }
   }
+/* =========================================
+   ZYLINK DATA PAGE — PREMIUM REDESIGN
+========================================= */
+
+.data-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
+  background: linear-gradient(180deg, #f1f7ff 0%, #ffffff 55%);
+  color: #102c50;
+}
+
+.data-header {
+  height: 78px;
+  padding: 0 7%;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e5edf7;
+  box-shadow: 0 4px 18px rgba(16, 44, 80, 0.035);
+}
+
+.data-brand {
+  font-family: Manrope, sans-serif;
+  font-size: 27px;
+  letter-spacing: -1px;
+  color: #0756b8;
+}
+
+.data-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #087be0, #06418e);
+  box-shadow: 0 7px 16px rgba(7, 86, 184, 0.2);
+}
+
+.back-home {
+  padding: 10px 15px;
+  border: 1px solid #e2ebf6;
+  border-radius: 9px;
+  transition: 0.2s ease;
+}
+
+.back-home:hover {
+  background: #edf5ff;
+  color: #0756b8;
+}
+
+.data-container {
+  max-width: 760px;
+  margin: 55px auto;
+}
+
+.data-intro {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.data-kicker {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid #dceaff;
+  border-radius: 30px;
+  background: #edf5ff;
+  color: #0870d7;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.data-intro h1 {
+  margin: 17px 0 10px;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(36px, 6vw, 48px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: #102c50;
+}
+
+.data-intro p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.purchase-card {
+  padding: 32px;
+  border: 1px solid #e5edf7;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 18px 55px rgba(16, 44, 80, 0.07);
+}
+
+.purchase-step-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 21px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #eaf3ff;
+  color: #0756b8;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.purchase-step-heading h2 {
+  margin: 0;
+  color: #102c50;
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.purchase-step-heading p {
+  margin: 5px 0 0;
+  color: #8290a3;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.data-network-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.data-network-option {
+  min-width: 0;
+  min-height: 105px;
+  gap: 10px;
+  border: 1px solid #e4ebf4;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #43556e;
+  font-size: 12px;
+  font-weight: 800;
+  transition: transform 0.2s ease, border-color 0.2s ease,
+    background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-network-option:hover {
+  transform: translateY(-3px);
+  border-color: #8bbcf0;
+  box-shadow: 0 8px 20px rgba(7, 86, 184, 0.08);
+}
+
+.data-network-option.active {
+  border: 2px solid #0875df;
+  background: #f0f7ff;
+  color: #0756b8;
+  box-shadow: 0 6px 18px rgba(7, 86, 184, 0.09);
+}
+
+.network-symbol {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-size: 17px;
+  box-shadow: 0 4px 10px rgba(16, 44, 80, 0.08);
+}
+
+.network-symbol.mtn {
+  background: #fff1bd;
+  color: #d99a00;
+}
+
+.network-symbol.airtel {
+  background: #ffe8e9;
+  color: #df2938;
+}
+
+.network-symbol.glo {
+  background: #e4f8e9;
+  color: #159443;
+}
+
+.network-symbol[class~="9mobile"] {
+  background: #e2f7ef;
+  color: #078d66;
+}
+
+.selected-check {
+  top: 8px;
+  right: 9px;
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #0875df;
+  color: white;
+  font-size: 11px;
+}
+
+.purchase-step {
+  margin-top: 30px;
+  padding-top: 27px;
+  border-top: 1px solid #edf1f7;
+  animation: dataStepAppear 0.3s ease;
+}
+
+@keyframes dataStepAppear {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 10px;
+  color: #344a65;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.data-plan-select,
+.data-phone-input {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 15px;
+  border: 1px solid #dce6f1;
+  border-radius: 12px;
+  outline: none;
+  background: #fbfdff;
+  color: #203a59;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-plan-select {
+  cursor: pointer;
+}
+
+.data-plan-select:focus,
+.data-phone-input:focus {
+  border-color: #0875df;
+  box-shadow: 0 0 0 4px rgba(8, 117, 223, 0.09);
+  background: #ffffff;
+}
+
+.data-plan-select option {
+  padding: 10px;
+}
+
+.data-phone-input::placeholder {
+  color: #a3afbf;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 9px;
+  color: #8a98aa;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.purchase-amount-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 27px;
+  padding: 22px;
+  border: 1px solid #cfe3fa;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0f7ff, #e5f2ff);
+  animation: dataStepAppear 0.3s ease;
+}
+
+.amount-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #647b96;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.amount-value {
+  display: block;
+  color: #0756b8;
+  font-family: Manrope, sans-serif;
+  font-size: 31px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.purchase-amount-card small {
+  display: block;
+  margin-top: 7px;
+  color: #718096;
+  font-size: 11px;
+}
+
+.amount-check {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d9f7e9;
+  color: #11945e;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.data-purchase-button {
+  min-height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  border-radius: 13px;
+  background: linear-gradient(120deg, #087be0, #0756b8);
+  box-shadow: 0 10px 23px rgba(7, 86, 184, 0.2);
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.data-purchase-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(7, 86, 184, 0.25);
+}
+
+.data-purchase-button span {
+  font-size: 20px;
+}
+
+.purchase-feedback {
+  margin-top: 17px;
+  padding: 14px;
+  border: 1px solid #ccebd9;
+  border-radius: 11px;
+  background: #effbf4;
+  color: #187347;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.testing-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 25px;
+  padding: 15px;
+  border: 1px solid #dceaff;
+  border-radius: 12px;
+  background: #f2f7ff;
+  color: #58718d;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.testing-notice > span {
+  flex-shrink: 0;
+  color: #0875df;
+  font-size: 16px;
+}
+
+.testing-notice p {
+  margin: 0;
+}
+
+.data-page .input-error {
+  display: block;
+  margin-top: 8px;
+  color: #d73535;
+  font-size: 12px;
+}
+
+/* TABLET AND MOBILE */
+
+@media (max-width: 700px) {
+  .data-header {
+    height: 70px;
+    padding: 0 18px;
+  }
+
+  .data-brand {
+    font-size: 23px;
+  }
+
+  .data-container {
+    width: calc(100% - 28px);
+    margin: 32px auto;
+  }
+
+  .data-intro {
+    margin-bottom: 24px;
+  }
+
+  .data-intro h1 {
+    font-size: 36px;
+  }
+
+  .purchase-card {
+    padding: 23px 17px;
+    border-radius: 18px;
+  }
+
+  .data-network-grid {
+    gap: 8px;
+  }
+
+  .data-network-option {
+    min-height: 91px;
+    font-size: 10px;
+  }
+
+  .network-symbol {
+    width: 34px;
+    height: 34px;
+  }
+
+  .purchase-step {
+    margin-top: 25px;
+    padding-top: 23px;
+  }
+
+  .purchase-step-heading h2 {
+    font-size: 15px;
+  }
+
+  .data-plan-select,
+  .data-phone-input {
+    min-height: 52px;
+    font-size: 13px;
+  }
+
+  .purchase-amount-card {
+    padding: 18px;
+  }
+
+  .amount-value {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 380px) {
+  .data-network-grid {
+    gap: 6px;
+  }
+
+  .data-network-option {
+    min-height: 82px;
+    font-size: 9px;
+  }
+
+  .purchase-card {
+    padding: 19px 13px;
+  }
+
+  .purchase-step-heading {
+    gap: 10px;
+  }
+    }
