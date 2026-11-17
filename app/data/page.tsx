@@ -829,7 +829,7 @@ export default function DataPage() {
         </footer>
       </section>
 
-      <style jsx global>
+      <style jsx global>{`
         .zylink-dashboard {
           min-height: 100vh;
           display: flex;
