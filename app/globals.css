@@ -2020,3 +2020,675 @@ h2 {
     gap: 10px;
   }
     }
+/* =====================================
+   ZYLINK CUSTOMER DASHBOARD REDESIGN
+===================================== */
+
+.zy-dashboard {
+  min-height: 100vh;
+  background: #f3f7fd;
+  color: #142e4d;
+  font-family: Arial, sans-serif;
+}
+
+/* TOP HEADER */
+
+.zy-topbar {
+  height: 78px;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px 0 300px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5edf6;
+}
+
+.zy-top-brand {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  color: #0756b8;
+  font-size: 24px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.zy-top-brand > span:last-child > span {
+  color: #1684df;
+}
+
+.zy-brand-mark {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #087be0, #064697);
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 800;
+  box-shadow: 0 5px 13px rgba(7, 86, 184, 0.2);
+}
+
+.zy-top-user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+}
+
+.zy-user-email {
+  color: #718096;
+  font-size: 13px;
+}
+
+.zy-avatar {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8f2ff;
+  color: #0756b8;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.zy-menu-toggle {
+  display: none;
+  border: none;
+  background: transparent;
+  color: #0756b8;
+  font-size: 27px;
+  cursor: pointer;
+}
+
+/* SIDEBAR */
+
+.zy-sidebar {
+  width: 270px;
+  position: fixed;
+  z-index: 120;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 17px;
+  overflow-y: auto;
+  background: #ffffff;
+  border-right: 1px solid #e5edf6;
+}
+
+.zy-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 10px 28px;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.zy-sidebar-brand strong {
+  display: block;
+  color: #0756b8;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.zy-sidebar-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #91a0b3;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.zy-nav-label {
+  margin: 27px 10px 10px;
+  color: #9aa9ba;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.zy-nav-link {
+  width: 100%;
+  min-height: 47px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 3px 0;
+  padding: 0 13px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: #64758b;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.zy-nav-link > span:first-child {
+  width: 22px;
+  color: #8298b2;
+  font-size: 18px;
+  text-align: center;
+}
+
+.zy-nav-link:hover {
+  background: #f0f6ff;
+  color: #0756b8;
+}
+
+.zy-nav-link.active {
+  background: #eaf3ff;
+  color: #0756b8;
+  font-weight: 800;
+}
+
+.zy-nav-link.active > span:first-child {
+  color: #087be0;
+}
+
+.zy-nav-arrow {
+  margin-left: auto;
+  color: #087be0;
+}
+
+.zy-sidebar-help {
+  margin-top: auto;
+  padding: 17px;
+  border: 1px solid #dfebfa;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #f1f7ff, #ffffff);
+}
+
+.zy-help-icon {
+  display: block;
+  margin-bottom: 10px;
+  color: #087be0;
+  font-size: 22px;
+}
+
+.zy-sidebar-help strong {
+  color: #183b60;
+  font-size: 13px;
+}
+
+.zy-sidebar-help p {
+  margin: 7px 0 12px;
+  color: #8291a5;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.zy-sidebar-help a {
+  color: #0756b8;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.zy-sidebar-logout {
+  margin-top: 15px;
+}
+
+.zy-sidebar-logout button {
+  width: 100%;
+  min-height: 43px;
+  border: 1px solid #e5edf6;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #64758b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* MAIN CONTENT */
+
+.zy-main {
+  min-height: 100vh;
+  margin-left: 270px;
+  padding: 115px 35px 25px;
+}
+
+.zy-welcome-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.zy-eyebrow {
+  color: #0875d5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.zy-welcome-row h1,
+.zy-placeholder-panel h1 {
+  margin: 12px 0 9px;
+  color: #142e4d;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1.3px;
+}
+
+.zy-welcome-row p,
+.zy-placeholder-panel p {
+  margin: 0;
+  color: #8190a4;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.zy-buy-button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 23px;
+  border-radius: 11px;
+  background: linear-gradient(120deg, #087be0, #0756b8);
+  box-shadow: 0 8px 20px rgba(7, 86, 184, 0.17);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* WALLET */
+
+.zy-wallet-card {
+  padding: 29px;
+  border-radius: 19px;
+  background: linear-gradient(120deg, #0756b8, #087fe1);
+  box-shadow: 0 14px 30px rgba(7, 86, 184, 0.17);
+  color: #ffffff;
+}
+
+.zy-wallet-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.zy-wallet-top span {
+  color: #d6eaff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.zy-wallet-top h2 {
+  margin: 13px 0;
+  color: #ffffff;
+  font-size: 38px;
+  font-weight: 800;
+}
+
+.zy-wallet-top button {
+  padding: 12px 17px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #0756b8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.zy-wallet-top button:disabled {
+  opacity: 0.9;
+}
+
+.zy-wallet-card > p {
+  margin: 5px 0 20px;
+  color: #e0edff;
+  font-size: 13px;
+}
+
+.zy-wallet-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
+.zy-wallet-card > small {
+  display: block;
+  margin-top: 17px;
+  color: #e0edff;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* QUICK SERVICES */
+
+.zy-section {
+  margin-top: 43px;
+}
+
+.zy-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.zy-section-heading h2 {
+  margin: 0 0 7px;
+  color: #142e4d;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.zy-section-heading p {
+  margin: 0;
+  color: #8190a4;
+  font-size: 13px;
+}
+
+.zy-section-tag {
+  padding: 8px 12px;
+  border-radius: 30px;
+  background: #eaf3ff;
+  color: #0756b8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.zy-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.zy-service-card {
+  min-width: 0;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 19px;
+  border: 1px solid #e4ebf4;
+  border-radius: 15px;
+  background: #ffffff;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(16, 44, 80, 0.035);
+  transition: 0.2s ease;
+}
+
+.zy-service-card:hover {
+  transform: translateY(-4px);
+  border-color: #b9d7f8;
+  box-shadow: 0 12px 25px rgba(16, 44, 80, 0.08);
+}
+
+.zy-service-icon {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 17px;
+  border-radius: 13px;
+  background: #edf5ff;
+  font-size: 22px;
+}
+
+.zy-service-card h3 {
+  margin: 0 0 7px;
+  color: #183b60;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.zy-service-card p {
+  margin: 0 0 15px;
+  color: #8998aa;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.zy-service-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 7px 10px;
+  border-radius: 30px;
+  background: #f0f3f7;
+  color: #8492a4;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.zy-service-status.ready {
+  background: #e5f8ee;
+  color: #138451;
+}
+
+/* NOTICE AND FOOTER */
+
+.zy-notice {
+  display: flex;
+  gap: 14px;
+  margin-top: 27px;
+  padding: 19px;
+  border: 1px solid #dceaff;
+  border-radius: 14px;
+  background: #edf5ff;
+}
+
+.zy-notice > span {
+  color: #0875d5;
+  font-size: 22px;
+}
+
+.zy-notice strong {
+  color: #0756b8;
+  font-size: 13px;
+}
+
+.zy-notice p {
+  margin: 7px 0 0;
+  color: #657b95;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.zy-footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid #e4ebf4;
+  color: #9aa7b7;
+  font-size: 10px;
+  text-align: center;
+}
+
+.zy-placeholder-panel {
+  min-height: 260px;
+  padding: 35px;
+  border: 1px solid #e4ebf4;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+/* MOBILE SIDEBAR */
+
+.zy-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .zy-sidebar {
+    width: 250px;
+  }
+
+  .zy-main {
+    margin-left: 250px;
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .zy-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .zy-topbar {
+    height: 76px;
+    padding: 0 17px;
+  }
+
+  .zy-menu-toggle {
+    display: block;
+  }
+
+  .zy-top-brand {
+    display: flex;
+    margin-right: auto;
+    margin-left: 13px;
+    font-size: 21px;
+  }
+
+  .zy-top-brand .zy-brand-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .zy-user-email {
+    display: none;
+  }
+
+  .zy-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .zy-sidebar {
+    top: 0;
+    bottom: 0;
+    left: -280px;
+    width: 270px;
+    padding-top: 24px;
+    transition: left 0.25s ease;
+  }
+
+  .zy-sidebar.is-open {
+    left: 0;
+  }
+
+  .zy-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    z-index: 110;
+    inset: 0;
+    border: none;
+    background: rgba(10, 28, 50, 0.45);
+  }
+
+  .zy-main {
+    margin-left: 0;
+    padding: 112px 17px 20px;
+  }
+
+  .zy-welcome-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 19px;
+    margin-bottom: 27px;
+  }
+
+  .zy-welcome-row h1 {
+    font-size: 29px;
+  }
+
+  .zy-buy-button {
+    min-height: 46px;
+  }
+
+  .zy-wallet-card {
+    padding: 23px 19px;
+    border-radius: 16px;
+  }
+
+  .zy-wallet-top h2 {
+    font-size: 33px;
+  }
+
+  .zy-wallet-top button {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+
+  .zy-section {
+    margin-top: 35px;
+  }
+
+  .zy-section-heading h2 {
+    font-size: 20px;
+  }
+
+  .zy-section-tag {
+    display: none;
+  }
+
+  .zy-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .zy-service-card {
+    min-height: 185px;
+    padding: 15px 13px;
+  }
+
+  .zy-service-card h3 {
+    font-size: 13px;
+  }
+
+  .zy-service-card p {
+    font-size: 10px;
+  }
+
+  .zy-notice {
+    padding: 15px;
+  }
+
+  .zy-placeholder-panel {
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .zy-main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .zy-service-grid {
+    gap: 8px;
+  }
+
+  .zy-service-card {
+    padding: 13px 10px;
+  }
+  }
