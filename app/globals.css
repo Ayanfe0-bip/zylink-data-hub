@@ -1216,3 +1216,333 @@ h2 {
     padding: 17px;
   }
 }
+/* ZYLINK DATA PURCHASE PAGE */
+
+.data-page {
+  min-height: 100vh;
+  background: #f4f8fc;
+  color: #10243e;
+  padding-bottom: 50px;
+}
+
+.data-header {
+  height: 76px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e5edf5;
+}
+
+.data-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #0755a5;
+  font-size: 25px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.data-brand-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: white;
+  background: #0878d1;
+}
+
+.back-home {
+  color: #42617f;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.data-container {
+  width: min(100% - 32px, 850px);
+  margin: 45px auto;
+}
+
+.data-intro {
+  margin-bottom: 28px;
+}
+
+.data-kicker {
+  color: #0878d1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.data-intro h1 {
+  margin: 10px 0;
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 800;
+}
+
+.data-intro p {
+  color: #71839a;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.purchase-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid #e7eef6;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(21, 61, 103, 0.06);
+}
+
+.form-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.form-heading h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.form-heading > span {
+  color: #8292a6;
+  font-size: 12px;
+}
+
+.data-network-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.data-network-option {
+  position: relative;
+  min-height: 95px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #e5edf5;
+  border-radius: 13px;
+  background: #ffffff;
+  color: #29435f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.data-network-option.active {
+  border: 2px solid #0878d1;
+  background: #f0f8ff;
+  color: #0755a5;
+}
+
+.network-symbol {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #0878d1;
+  color: white;
+  font-weight: 800;
+}
+
+.network-symbol.airtel {
+  background: #e52c39;
+}
+
+.network-symbol.glo {
+  background: #159b55;
+}
+
+.network-symbol.9mobile {
+  background: #078d66;
+}
+
+.selected-check {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  color: #0878d1;
+  font-size: 13px;
+}
+
+.form-section {
+  margin-top: 28px;
+}
+
+.form-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.form-section input {
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+  border: 1px solid #dce6f0;
+  border-radius: 11px;
+  outline: none;
+  background: #fbfdff;
+  color: #10243e;
+  font-size: 15px;
+}
+
+.form-section input:focus {
+  border-color: #0878d1;
+  box-shadow: 0 0 0 3px rgba(8, 120, 209, 0.1);
+}
+
+.form-section small {
+  display: block;
+  margin-top: 8px;
+  color: #8a9aad;
+  font-size: 12px;
+}
+
+.input-error {
+  display: block;
+  margin-top: 7px;
+  color: #d73535;
+  font-size: 12px;
+}
+
+.data-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.data-plan-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px 13px;
+  border: 1px solid #e3ebf3;
+  border-radius: 13px;
+  background: white;
+  color: #253e59;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.data-plan-option:hover {
+  border-color: #0878d1;
+  transform: translateY(-2px);
+}
+
+.data-plan-option.active {
+  border: 2px solid #0878d1;
+  background: #f0f8ff;
+}
+
+.plan-name {
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.data-plan-option strong {
+  color: #0878d1;
+  font-size: 19px;
+}
+
+.plan-category,
+.plan-validity {
+  color: #8191a4;
+  font-size: 11px;
+}
+
+.selection-summary {
+  display: grid;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 19px;
+  border-radius: 13px;
+  background: #f4f8fc;
+}
+
+.selection-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 13px;
+}
+
+.selection-summary span {
+  color: #75879b;
+}
+
+.selection-summary strong {
+  color: #173957;
+  text-align: right;
+}
+
+.data-purchase-button {
+  width: 100%;
+  height: 53px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 12px;
+  background: #0878d1;
+  color: white;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.data-purchase-button:disabled {
+  background: #b8cde0;
+  cursor: not-allowed;
+}
+
+.testing-notice {
+  margin-top: 17px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eef7ff;
+  color: #426a8d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .data-container {
+    margin-top: 28px;
+  }
+
+  .purchase-card {
+    padding: 19px 15px;
+  }
+
+  .data-network-grid {
+    gap: 7px;
+  }
+
+  .data-network-option {
+    min-height: 83px;
+    font-size: 11px;
+  }
+
+  .data-plan-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
+
+  .data-plan-option {
+    padding: 13px 10px;
+  }
+  }
