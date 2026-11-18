@@ -178,9 +178,9 @@ return (
               <h2>₦0.00</h2>
             </div>
 
-            <button type="button" disabled>
-              Fund wallet
-            </button>
+            <Link href="/wallet" className="zy-fund-button">
+  Fund wallet →
+</Link>
           </div>
 
           <p>Your wallet is ready for funding.</p>
