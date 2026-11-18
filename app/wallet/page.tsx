@@ -13,6 +13,20 @@ export default async function WalletPage() {
     redirect("/login");
   }
 
+  const { data: wallet } = await supabase
+    .from("wallets")
+    .select("balance_kobo")
+    .eq("customer_id", user.id)
+    .maybeSingle();
+
+  const balanceKobo = Number(wallet?.balance_kobo ?? 0);
+
+  const formattedBalance = new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 2,
+  }).format(balanceKobo / 100);
+
   return (
     <main className="wallet-page">
       <header className="wallet-header">
@@ -39,7 +53,7 @@ export default async function WalletPage() {
 
         <div className="wallet-balance-card">
           <span>AVAILABLE BALANCE</span>
-          <h2>₦0.00</h2>
+          <h2>{formattedBalance}</h2>
           <small>Your current wallet balance</small>
         </div>
 
