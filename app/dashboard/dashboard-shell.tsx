@@ -122,13 +122,15 @@ return (
 
     <div className="zy-nav-label">SUPPORT</div>
 
-    <button
-      className={`zy-nav-link ${active === "Documentation" ? "active" : ""}`}
-      onClick={() => navigate("Documentation")}
-    >
-      <span>▧</span>
-      Documentation
-    </button>
+    <Link
+  href="/documentation"
+  className="zy-nav-link"
+  onClick={() => setSidebarOpen(false)}
+>
+  <span>▧</span>
+  Documentation
+  <b className="zy-nav-arrow">↗</b>
+</Link>
 
     <div className="zy-sidebar-help">
       <span className="zy-help-icon">ⓘ</span>
