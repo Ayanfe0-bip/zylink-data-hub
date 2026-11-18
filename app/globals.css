@@ -2859,3 +2859,102 @@ h2 {
     padding: 21px;
   }
 }
+/* Zylink Account Generator */
+
+.wallet-account-card {
+  background: #ffffff;
+  border: 1px solid #e3edf5;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 12px 35px rgba(15, 50, 85, 0.06);
+}
+
+.wallet-account-card h2 {
+  color: #102b46;
+  font-size: 23px;
+  font-weight: 750;
+  margin: 15px 0 8px;
+}
+
+.wallet-account-card > p {
+  color: #718399;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.wallet-account-card label {
+  display: block;
+  color: #29445f;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 20px 0 9px;
+}
+
+.wallet-account-card select,
+.wallet-account-card input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid #dce7f1;
+  border-radius: 12px;
+  padding: 0 15px;
+  background: #f8fbfe;
+  color: #173b5d;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.wallet-account-card select:focus,
+.wallet-account-card input:focus {
+  border-color: #087fc4;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(8, 127, 196, 0.09);
+}
+
+.wallet-account-card input::placeholder {
+  color: #9aabba;
+}
+
+.wallet-account-card .wallet-security {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eef7ff;
+  border: 1px solid #d6eaff;
+  border-radius: 12px;
+  color: #315c7c;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.wallet-generate-button {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 12px;
+  background: #087fc4;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.wallet-account-card .wallet-status {
+  margin-top: 18px;
+  text-align: center;
+  color: #087fc4;
+  background: #eff8ff;
+  border-radius: 9px;
+  padding: 11px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  .wallet-account-card {
+    padding: 21px;
+  }
+}
