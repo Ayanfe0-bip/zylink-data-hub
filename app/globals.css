@@ -2692,3 +2692,170 @@ h2 {
     padding: 13px 10px;
   }
   }
+/* ZYLINK CUSTOMER WALLET PAGE */
+
+.wallet-page {
+  min-height: 100vh;
+  background: #f3f7fd;
+  color: #142e4d;
+  padding-bottom: 50px;
+}
+
+.wallet-header {
+  height: 75px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-bottom: 1px solid #e5edf6;
+}
+
+.wallet-brand {
+  color: #0756b8;
+  font-size: 24px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.wallet-brand span {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-right: 7px;
+  border-radius: 11px;
+  background: #0756b8;
+  color: white;
+}
+
+.wallet-back {
+  color: #0756b8;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.wallet-container {
+  width: min(100% - 32px, 650px);
+  margin: 45px auto;
+}
+
+.wallet-kicker {
+  color: #0875d5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.wallet-container > h1 {
+  margin: 13px 0;
+  font-size: 36px;
+  letter-spacing: -1px;
+}
+
+.wallet-description {
+  color: #8190a4;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.wallet-balance-card {
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #0756b8, #087fe1);
+  color: white;
+}
+
+.wallet-balance-card span {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+.wallet-balance-card h2 {
+  margin: 15px 0 8px;
+  font-size: 38px;
+}
+
+.wallet-balance-card small {
+  color: #d6eaff;
+}
+
+.wallet-account-card {
+  margin-top: 25px;
+  padding: 27px;
+  border: 1px solid #e4ebf4;
+  border-radius: 18px;
+  background: white;
+}
+
+.wallet-icon {
+  font-size: 32px;
+}
+
+.wallet-account-card h2 {
+  margin: 17px 0 10px;
+  font-size: 21px;
+}
+
+.wallet-account-card > p {
+  color: #8190a4;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.wallet-security {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #edf5ff;
+  color: #526782;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.wallet-status {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 9px 12px;
+  border-radius: 30px;
+  background: #fff5dc;
+  color: #9b6b08;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.wallet-notice {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #f5dfaa;
+  border-radius: 13px;
+  background: #fffaf0;
+}
+
+.wallet-notice strong {
+  color: #946200;
+}
+
+.wallet-notice p {
+  margin-bottom: 0;
+  color: #786b50;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+@media (max-width: 500px) {
+  .wallet-container {
+    margin-top: 30px;
+  }
+
+  .wallet-container > h1 {
+    font-size: 30px;
+  }
+
+  .wallet-account-card,
+  .wallet-balance-card {
+    padding: 21px;
+  }
+}
