@@ -20,6 +20,12 @@ export default async function WalletPage() {
     .eq("customer_id", user.id)
     .maybeSingle();
 
+  const { data: bankAccount } = await supabase
+    .from("customer_bank_accounts")
+    .select("account_number, account_name, bank_name, status")
+    .eq("customer_id", user.id)
+    .maybeSingle();
+
   const balanceKobo = Number(wallet?.balance_kobo ?? 0);
 
   const formattedBalance = new Intl.NumberFormat("en-NG", {
@@ -58,16 +64,44 @@ export default async function WalletPage() {
           <small>Your current wallet balance</small>
         </div>
 
-        <AccountGenerator />
+        {bankAccount ? (
+          <div className="wallet-account-card">
+            <div className="wallet-icon">🏦</div>
+
+            <h2>Your dedicated bank account</h2>
+
+            <p>Use these details to fund your Zylink wallet.</p>
+
+            <div className="wallet-status">
+              ACCOUNT STATUS: {bankAccount.status}
+            </div>
+
+            <p>
+              <strong>Account name:</strong><br />
+              {bankAccount.account_name}
+            </p>
+
+            <p>
+              <strong>Account number:</strong><br />
+              {bankAccount.account_number}
+            </p>
+
+            <p>
+              <strong>Bank:</strong><br />
+              {bankAccount.bank_name}
+            </p>
+          </div>
+        ) : (
+          <AccountGenerator />
+        )}
 
         <div className="wallet-notice">
           <strong>Important</strong>
 
           <p>
-            We are currently testing the payment system.
-            Real wallet funding is not yet enabled.
-            Do not submit your real BVN or NIN during
-            Sandbox testing.
+            Zylink is currently testing its Monnify payment
+            integration. Real wallet funding is not yet enabled.
+            Never enter your real BVN or NIN during Sandbox testing.
           </p>
         </div>
       </section>
