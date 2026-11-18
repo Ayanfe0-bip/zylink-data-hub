@@ -12,18 +12,16 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     async function loadAccount() {
-      const { data, error } = await supabase.auth.getUser();
+      const { data } = await supabase.auth.getUser();
 
-      if (error || !data.user) {
+      if (!data.user) {
         router.push("/login");
         return;
       }
@@ -37,25 +35,22 @@ export default function SettingsPage() {
 
   async function changePassword(e: React.FormEvent) {
     e.preventDefault();
-
     setMessage("");
     setError("");
 
     if (password.length < 8) {
-      setError("Your new password must contain at least 8 characters.");
+      setError("Password must contain at least 8 characters.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Your passwords do not match.");
+      setError("The passwords do not match.");
       return;
     }
 
     setSaving(true);
 
-    const { error } = await supabase.auth.updateUser({
-      password,
-    });
+    const { error } = await supabase.auth.updateUser({ password });
 
     setSaving(false);
 
@@ -85,18 +80,12 @@ export default function SettingsPage() {
   }
 
   if (loading) {
-    return (
-      <main className="settings-loading">
-        <div className="settings-spinner" />
-        <p>Loading your settings...</p>
-      </main>
-    );
+    return <main className="settings-loading">Loading settings...</main>;
   }
 
   return (
     <main className="settings-page">
       <div className="settings-container">
-
         <header className="settings-header">
           <div>
             <span className="settings-label">MY ACCOUNT</span>
@@ -104,106 +93,87 @@ export default function SettingsPage() {
             <p>Manage your account security and preferences.</p>
           </div>
 
-          <button
-            className="settings-back"
-            onClick={() => router.push("/dashboard")}
-          >
+          <button onClick={() => router.push("/dashboard")}>
             ← Dashboard
           </button>
         </header>
 
-        {error && <div className="settings-alert error">{error}</div>}
-        {message && <div className="settings-alert success">{message}</div>}
+        {error && <div className="alert error">{error}</div>}
+        {message && <div className="alert success">{message}</div>}
 
         <section className="settings-card">
-          <div className="settings-card-heading">
-            <div className="settings-icon">♙</div>
+          <div className="card-heading">
+            <span className="icon">♙</span>
             <div>
               <h2>Account Information</h2>
               <p>Your registered account details.</p>
             </div>
           </div>
 
-          <div className="settings-field">
-            <label>Email Address</label>
-            <input type="email" value={email} readOnly />
-            <small>Your registered email address cannot be changed here.</small>
-          </div>
+          <label>Email Address</label>
+          <input type="email" value={email} readOnly />
+          <small>Your registered email address.</small>
         </section>
 
         <section className="settings-card">
-          <div className="settings-card-heading">
-            <div className="settings-icon">🔐</div>
+          <div className="card-heading">
+            <span className="icon">🔐</span>
             <div>
               <h2>Password & Security</h2>
-              <p>Keep your Zylink account protected.</p>
+              <p>Keep your account protected.</p>
             </div>
           </div>
 
           <form onSubmit={changePassword}>
-            <div className="settings-field">
-              <label>New Password</label>
-              <input
-                type="password"
-                placeholder="Enter your new password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={8}
-              />
-            </div>
+            <label>New Password</label>
+            <input
+              type="password"
+              placeholder="Enter new password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              minLength={8}
+              required
+            />
 
-            <div className="settings-field">
-              <label>Confirm New Password</label>
-              <input
-                type="password"
-                placeholder="Confirm your new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                minLength={8}
-              />
-            </div>
+            <label>Confirm New Password</label>
+            <input
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              minLength={8}
+              required
+            />
 
-            <button
-              type="submit"
-              className="settings-primary-button"
-              disabled={saving}
-            >
-              {saving ? "Updating Password..." : "Update Password"}
+            <button className="primary-button" disabled={saving}>
+              {saving ? "Updating..." : "Update Password"}
             </button>
           </form>
         </section>
 
-        <section className="settings-card security-card">
-          <div className="settings-card-heading">
-            <div className="settings-icon">🛡️</div>
+        <section className="settings-card">
+          <div className="card-heading">
+            <span className="icon">🛡️</span>
             <div>
               <h2>Account Security</h2>
-              <p>Some important information about your account.</p>
-            </div>
-          </div>
-
-          <div className="settings-security-row">
-            <div>
-              <strong>Account Authentication</strong>
               <p>Your account is protected by Supabase authentication.</p>
             </div>
-            <span className="settings-status">Active</span>
           </div>
+
+          <span className="status">● Authentication Active</span>
         </section>
 
-        <section className="settings-card signout-card">
-          <div className="settings-card-heading">
-            <div className="settings-icon">⇥</div>
+        <section className="settings-card">
+          <div className="card-heading">
+            <span className="icon">⇥</span>
             <div>
               <h2>Sign Out</h2>
-              <p>Sign out of your Zylink account on this device.</p>
+              <p>Sign out of your account on this device.</p>
             </div>
           </div>
 
           <button
-            className="settings-danger-button"
+            className="danger-button"
             onClick={signOut}
             disabled={signingOut}
           >
@@ -211,26 +181,23 @@ export default function SettingsPage() {
           </button>
         </section>
 
-        <footer className="settings-footer">
+        <footer>
           <strong>Zylink Data Hub</strong>
-          <span>Think Smart. Stay Connected.</span>
-          <small>
-            Created by Ayanfe Innovation Labs Limited.
-          </small>
+          <p>Think Smart. Stay Connected.</p>
+          <small>Created by Ayanfe Innovation Labs Limited.</small>
         </footer>
-
       </div>
 
       <style jsx>{`
         .settings-page {
           min-height: 100vh;
+          padding: 30px 18px;
           background: #f4f8fc;
-          padding: 35px 20px;
           color: #172b4d;
         }
 
         .settings-container {
-          max-width: 850px;
+          max-width: 800px;
           margin: auto;
         }
 
@@ -239,7 +206,7 @@ export default function SettingsPage() {
           justify-content: space-between;
           align-items: center;
           gap: 15px;
-          margin-bottom: 30px;
+          margin-bottom: 28px;
         }
 
         .settings-label {
@@ -249,72 +216,160 @@ export default function SettingsPage() {
           letter-spacing: 2px;
         }
 
-        .settings-header h1 {
-          font-size: 32px;
+        h1 {
+          font-size: 30px;
           margin: 8px 0;
-          font-weight: 800;
         }
 
         .settings-header p,
-        .settings-card-heading p {
+        .card-heading p {
           color: #718096;
-          font-size: 14px;
+          font-size: 13px;
           margin: 0;
         }
 
-        .settings-back {
-          border: 1px solid #dce6f0;
+        button {
+          cursor: pointer;
+          border-radius: 9px;
+          padding: 12px 16px;
+          font-weight: 700;
+        }
+
+        .settings-header button {
           background: white;
           color: #0879c9;
-          padding: 11px 16px;
-          border-radius: 9px;
-          font-weight: 700;
-          cursor: pointer;
+          border: 1px solid #dce6f0;
         }
 
         .settings-card {
           background: white;
           border: 1px solid #e6edf5;
-          border-radius: 15px;
-          padding: 24px;
-          margin-bottom: 20px;
-          box-shadow: 0 5px 20px rgba(20, 55, 90, 0.035);
+          border-radius: 14px;
+          padding: 22px;
+          margin-bottom: 18px;
+          box-shadow: 0 5px 18px rgba(20,55,90,.04);
         }
 
-        .settings-card-heading {
+        .card-heading {
           display: flex;
           align-items: center;
-          gap: 14px;
-          margin-bottom: 23px;
+          gap: 13px;
+          margin-bottom: 22px;
         }
 
-        .settings-icon {
-          width: 45px;
-          height: 45px;
+        .icon {
+          width: 43px;
+          height: 43px;
+          display: grid;
+          place-items: center;
           border-radius: 12px;
           background: #eaf5ff;
           color: #0879c9;
-          display: grid;
-          place-items: center;
-          font-size: 21px;
-          flex-shrink: 0;
+          font-size: 20px;
         }
 
-        .settings-card-heading h2 {
-          font-size: 17px;
-          margin: 0 0 6px;
-          font-weight: 800;
+        h2 {
+          font-size: 16px;
+          margin: 0 0 5px;
         }
 
-        .settings-field {
-          margin-bottom: 18px;
-        }
-
-        .settings-field label {
+        label {
           display: block;
           font-size: 13px;
           font-weight: 700;
-          margin-bottom: 8px;
+          margin: 15px 0 8px;
         }
 
-        .settings
+        input {
+          box-sizing: border-box;
+          width: 100%;
+          padding: 13px;
+          border: 1px solid #dce5ef;
+          border-radius: 9px;
+          background: #fbfdff;
+          font-size: 14px;
+          outline: none;
+        }
+
+        input:focus {
+          border-color: #0879c9;
+        }
+
+        input[readonly] {
+          background: #f0f4f8;
+        }
+
+        small {
+          display: block;
+          color: #8492a6;
+          font-size: 11px;
+          margin-top: 7px;
+        }
+
+        .primary-button {
+          margin-top: 18px;
+          background: #0879c9;
+          color: white;
+          border: none;
+        }
+
+        .danger-button {
+          background: #fff1f1;
+          color: #d33b3b;
+          border: 1px solid #ffdada;
+        }
+
+        .status {
+          color: #16834b;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .alert {
+          padding: 13px;
+          border-radius: 9px;
+          margin-bottom: 16px;
+          font-size: 13px;
+        }
+
+        .error {
+          background: #fff0f0;
+          color: #c53030;
+        }
+
+        .success {
+          background: #e9f9ef;
+          color: #187b45;
+        }
+
+        footer {
+          text-align: center;
+          padding: 25px 10px;
+          color: #718096;
+          font-size: 12px;
+        }
+
+        footer strong {
+          color: #0879c9;
+          font-size: 15px;
+        }
+
+        .settings-loading {
+          padding: 60px;
+          text-align: center;
+        }
+
+        @media (max-width: 550px) {
+          .settings-header {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+
+          .settings-card {
+            padding: 18px;
+          }
+        }
+      `}</style>
+    </main>
+  );
+}
