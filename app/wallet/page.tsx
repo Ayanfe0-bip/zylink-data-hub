@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import AccountGenerator from "./account-generator";
 
 export default async function WalletPage() {
   const supabase = await createClient();
@@ -57,27 +58,7 @@ export default async function WalletPage() {
           <small>Your current wallet balance</small>
         </div>
 
-        <div className="wallet-account-card">
-          <div className="wallet-icon">🏦</div>
-
-          <h2>Your dedicated bank account</h2>
-
-          <p>
-            We are preparing your personal Zylink bank
-            account through our Monnify payment integration.
-          </p>
-
-          <div className="wallet-security">
-            <span>🔒</span>
-            Your BVN or NIN will be sent securely to
-            Monnify when account generation becomes available.
-            Zylink will not store your identity number.
-          </div>
-
-          <div className="wallet-status">
-            PAYMENT INTEGRATION: SANDBOX TESTING
-          </div>
-        </div>
+        <AccountGenerator />
 
         <div className="wallet-notice">
           <strong>Important</strong>
