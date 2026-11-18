@@ -6,11 +6,26 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(request: NextRequest) {
-  try {
-    // 1. Authenticate the customer
-    const supabase = await createClient();
+async function readResponse(response: Response) {
+  const text = await response.text();
 
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {
+      requestSuccessful: false,
+      responseMessage: text.slice(0, 500) || "Empty response",
+    };
+  }
+}
+
+export async function POST(request: NextRequest) {
+  let stage = "START";
+
+  try {
+    stage = "CUSTOMER_AUTHENTICATION";
+
+    const supabase = await createClient();
     const {
       data: { user },
       error: authError,
@@ -23,7 +38,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 2. Validate customer information
+    stage = "INPUT_VALIDATION";
+
     const body = await request.json();
 
     const identityType = String(body.identityType || "")
@@ -67,13 +83,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Check Monnify configuration
+    stage = "MONNIFY_CONFIGURATION";
+
     const apiKey = process.env.MONNIFY_API_KEY;
     const secretKey = process.env.MONNIFY_SECRET_KEY;
     const contractCode = process.env.MONNIFY_CONTRACT_CODE;
     const baseUrl = process.env.MONNIFY_BASE_URL;
 
     if (!apiKey || !secretKey || !contractCode || !baseUrl) {
+      console.error("[Zylink Reserved Account] Missing configuration.");
+
       return NextResponse.json(
         {
           ok: false,
@@ -83,18 +102,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. Connect to the secure database
+    stage = "DATABASE_LOOKUP";
+
     const admin = createAdminClient();
 
-    // Check whether this customer already has an account
-    const { data: existingAccount, error: lookupError } =
-      await admin
-        .from("customer_bank_accounts")
-        .select("*")
-        .eq("customer_id", user.id)
-        .maybeSingle();
+    const { data: existingAccount, error: lookupError } = await admin
+      .from("customer_bank_accounts")
+      .select("*")
+      .eq("customer_id", user.id)
+      .maybeSingle();
 
     if (lookupError) {
+      console.error("[Zylink Reserved Account] Database lookup failed:", {
+        code: lookupError.code,
+        message: lookupError.message,
+      });
+
       return NextResponse.json(
         {
           ok: false,
@@ -128,7 +151,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Authenticate with Monnify
+    stage = "MONNIFY_AUTHENTICATION";
+
     const credentials = Buffer.from(
       `${apiKey}:${secretKey}`
     ).toString("base64");
@@ -145,17 +169,24 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    const authResult = await authResponse.json();
+    const authResult = await readResponse(authResponse);
 
     if (
       !authResponse.ok ||
       !authResult.requestSuccessful ||
       !authResult.responseBody?.accessToken
     ) {
+      console.error("[Zylink Reserved Account] Monnify authentication failed:", {
+        stage,
+        httpStatus: authResponse.status,
+        responseCode: authResult.responseCode,
+        responseMessage: authResult.responseMessage,
+      });
+
       return NextResponse.json(
         {
           ok: false,
-          message: "Monnify authentication failed.",
+          message: "Monnify authentication failed. Please try again later.",
         },
         { status: 502 }
       );
@@ -163,10 +194,10 @@ export async function POST(request: NextRequest) {
 
     const accessToken = authResult.responseBody.accessToken;
 
-    // 6. Generate a unique account reference
+    stage = "RESERVED_ACCOUNT_REQUEST";
+
     const accountReference = `ZYLINK-${user.id}-${randomUUID()}`;
 
-    // 7. Prepare the reserved account request
     const accountData: Record<string, unknown> = {
       accountReference,
       accountName: customerName,
@@ -174,16 +205,12 @@ export async function POST(request: NextRequest) {
       contractCode,
       customerEmail,
       customerName,
-
-      // Request a Moniepoint reserved account
       getAllAvailableBanks: false,
       preferredBanks: ["50515"],
     };
 
-    // Send only the identity type selected by the customer
     accountData[identityType.toLowerCase()] = identityNumber;
 
-    // 8. Request the dedicated account from Monnify
     const accountResponse = await fetch(
       `${baseUrl}/api/v2/bank-transfer/reserved-accounts`,
       {
@@ -197,31 +224,44 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    const accountResult = await accountResponse.json();
+    const accountResult = await readResponse(accountResponse);
 
     if (
       !accountResponse.ok ||
       !accountResult.requestSuccessful ||
       !accountResult.responseBody
     ) {
+      console.error("[Zylink Reserved Account] Monnify rejected request:", {
+        stage,
+        httpStatus: accountResponse.status,
+        responseCode: accountResult.responseCode,
+        responseMessage: accountResult.responseMessage,
+        requestSuccessful: accountResult.requestSuccessful,
+      });
+
       return NextResponse.json(
         {
           ok: false,
           message:
             accountResult.responseMessage ||
-            "Unable to generate your dedicated bank account.",
+            "Monnify could not generate your account. Please try again later.",
         },
-        { status: 400 }
+        { status: 502 }
       );
     }
+
+    stage = "ACCOUNT_RESPONSE_VALIDATION";
 
     const reserved = accountResult.responseBody;
     const bankAccount = reserved.accounts?.[0];
 
-    if (
-      !bankAccount?.accountNumber ||
-      !bankAccount?.bankName
-    ) {
+    if (!bankAccount?.accountNumber || !bankAccount?.bankName) {
+      console.error("[Zylink Reserved Account] Incomplete Monnify response:", {
+        stage,
+        responseCode: accountResult.responseCode,
+        responseMessage: accountResult.responseMessage,
+      });
+
       return NextResponse.json(
         {
           ok: false,
@@ -231,7 +271,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 9. Save the account against the authenticated customer
+    stage = "DATABASE_SAVE";
+
     const { error: saveError } = await admin
       .from("customer_bank_accounts")
       .insert({
@@ -245,26 +286,28 @@ export async function POST(request: NextRequest) {
         reservation_reference:
           reserved.reservationReference || null,
         provider: "MONNIFY",
-        status:
-          reserved.status === "ACTIVE" ? "ACTIVE" : "PENDING",
+        status: reserved.status === "ACTIVE" ? "ACTIVE" : "PENDING",
       });
 
     if (saveError) {
-      console.error("Reserved account database save failed:", {
+      console.error("[Zylink Reserved Account] Database save failed:", {
+        stage,
         code: saveError.code,
+        message: saveError.message,
       });
 
       return NextResponse.json(
         {
           ok: false,
           message:
-            "Your account was generated, but we could not save its details. Please contact support before retrying.",
+            "Your account may have been generated, but we could not save its details. Please contact support before retrying.",
         },
         { status: 500 }
       );
     }
 
-    // 10. Return safe account details
+    console.info("[Zylink Reserved Account] Account created successfully.");
+
     return NextResponse.json({
       ok: true,
       message: "Dedicated bank account generated successfully.",
@@ -276,15 +319,19 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Reserved account generation error:", error);
+    console.error("[Zylink Reserved Account] Unexpected failure:", {
+      stage,
+      error:
+        error instanceof Error ? error.message : String(error),
+    });
 
     return NextResponse.json(
       {
         ok: false,
         message:
-          "Something went wrong while generating your bank account.",
+          "Something went wrong while generating your bank account. Please try again later.",
       },
       { status: 500 }
     );
   }
-                                                  }
+        }
