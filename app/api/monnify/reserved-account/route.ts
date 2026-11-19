@@ -206,7 +206,6 @@ export async function POST(request: NextRequest) {
       customerEmail,
       customerName,
       getAllAvailableBanks: false,
-      preferredBanks: ["50515"],
     };
 
     accountData[identityType.toLowerCase()] = identityNumber;
