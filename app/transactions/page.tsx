@@ -1,46 +1,101 @@
-"use client";
 
-import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
 type Transaction = {
   id: string;
-  reference: string;
-  network: string;
-  plan: string;
-  phone: string;
-  amount: number;
-  status: "Successful" | "Failed";
-  date: string;
+  transaction_type: string;
+  amount_kobo: number;
+  status: string;
+  payment_reference: string | null;
+  provider_reference: string | null;
+  description: string | null;
+  created_at: string;
 };
 
-export default function TransactionsPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loaded, setLoaded] = useState(false);
+function formatMoney(amountKobo: number) {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 2,
+  }).format(amountKobo / 100);
+}
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("zylink_transactions");
-      setTransactions(saved ? JSON.parse(saved) : []);
-    } catch {
-      setTransactions([]);
-    }
+function formatDate(date: string) {
+  return new Date(date).toLocaleString("en-NG", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
 
-    setLoaded(true);
-  }, []);
+function transactionLabel(type: string) {
+  switch (type) {
+    case "DEPOSIT":
+      return "Wallet Funding";
+    case "PURCHASE":
+      return "Data Purchase";
+    case "WITHDRAWAL":
+      return "Withdrawal";
+    case "REFUND":
+      return "Refund";
+    default:
+      return type.replaceAll("_", " ");
+  }
+}
 
-  const formatDate = (date: string) =>
-    new Date(date).toLocaleString("en-NG", {
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
+function statusClass(status: string) {
+  switch (status.toUpperCase()) {
+    case "SUCCESS":
+      return "success";
+    case "FAILED":
+      return "failed";
+    default:
+      return "pending";
+  }
+}
+
+export default async function TransactionsPage() {
+  const supabase = await createClient();
+
+  const { data, error: authError } =
+    await supabase.auth.getClaims();
+
+  const claims = data?.claims;
+
+  if (authError || !claims || typeof claims.sub !== "string") {
+    redirect("/login");
+  }
+
+  const userId = claims.sub;
+
+  const { data: transactions, error } = await supabase
+    .from("wallet_transactions")
+    .select(
+      "id, transaction_type, amount_kobo, status, payment_reference, provider_reference, description, created_at"
+    )
+    .eq("customer_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  const records = (transactions ?? []) as Transaction[];
+
+  const successful = records.filter(
+    (item) => item.status.toUpperCase() === "SUCCESS"
+  ).length;
+
+  const failed = records.filter(
+    (item) => item.status.toUpperCase() === "FAILED"
+  ).length;
 
   return (
     <main className="transactions-page">
       <header className="transactions-header">
         <Link href="/dashboard" className="transactions-brand">
           <span className="brand-mark">Z</span>
-          <span>zy<span>link</span></span>
+          <span>
+            zy<span>link</span>
+          </span>
         </Link>
 
         <Link href="/dashboard" className="dashboard-link">
@@ -57,36 +112,24 @@ export default function TransactionsPage() {
           <h1>Transaction History</h1>
 
           <p>
-            View and track your previous data purchases.
+            View and track your Zylink wallet activity and purchases.
           </p>
         </div>
 
         <div className="transactions-summary">
           <div>
             <span>TOTAL TRANSACTIONS</span>
-            <strong>{loaded ? transactions.length : "..."}</strong>
+            <strong>{error ? "—" : records.length}</strong>
           </div>
 
           <div>
             <span>SUCCESSFUL</span>
-            <strong>
-              {loaded
-                ? transactions.filter(
-                    (item) => item.status === "Successful"
-                  ).length
-                : "..."}
-            </strong>
+            <strong>{error ? "—" : successful}</strong>
           </div>
 
           <div>
             <span>FAILED</span>
-            <strong>
-              {loaded
-                ? transactions.filter(
-                    (item) => item.status === "Failed"
-                  ).length
-                : "..."}
-            </strong>
+            <strong>{error ? "—" : failed}</strong>
           </div>
         </div>
 
@@ -94,85 +137,103 @@ export default function TransactionsPage() {
           <div className="transactions-card-heading">
             <div>
               <h2>Recent transactions</h2>
-              <p>Your data purchase records.</p>
+              <p>Your latest wallet activity.</p>
             </div>
 
             <span className="history-icon">↔</span>
           </div>
 
-          {!loaded ? (
+          {error ? (
             <div className="history-empty">
-              Loading transactions...
+              <div className="empty-icon">⚠️</div>
+              <h3>Unable to load transactions</h3>
+              <p>
+                We couldn't retrieve your transaction history.
+                Please refresh the page and try again.
+              </p>
             </div>
-          ) : transactions.length === 0 ? (
+          ) : records.length === 0 ? (
             <div className="history-empty">
               <div className="empty-icon">📄</div>
 
               <h3>No transactions yet</h3>
 
               <p>
-                Your data purchases will appear here
-                after you make your first order.
+                Your wallet deposits, purchases and refunds
+                will appear here when transactions are recorded.
               </p>
 
               <Link href="/data" className="history-buy-button">
-                Buy Data Now →
+                Explore Data Plans →
               </Link>
             </div>
           ) : (
             <div className="transaction-list">
-              {transactions.map((item) => (
+              {records.map((item) => (
                 <article
                   className="transaction-item"
                   key={item.id}
                 >
                   <div className="transaction-top">
-                    <div className="transaction-network">
-                      <span className={`network-badge ${item.network.toLowerCase()}`}>
-                        {item.network === "9MOBILE"
-                          ? "9"
-                          : item.network.charAt(0)}
+                    <div className="transaction-heading">
+                      <span className="transaction-icon">
+                        {item.transaction_type === "DEPOSIT"
+                          ? "↓"
+                          : item.transaction_type === "PURCHASE"
+                          ? "📱"
+                          : item.transaction_type === "REFUND"
+                          ? "↩"
+                          : "↔"}
                       </span>
 
                       <div>
-                        <strong>{item.network} Data</strong>
-                        <small>{item.plan}</small>
+                        <strong>
+                          {transactionLabel(item.transaction_type)}
+                        </strong>
+
+                        <small>
+                          {item.description || "Zylink transaction"}
+                        </small>
                       </div>
                     </div>
 
                     <strong className="transaction-amount">
-                      ₦{Number(item.amount).toLocaleString("en-NG")}
+                      {formatMoney(Number(item.amount_kobo))}
                     </strong>
                   </div>
 
                   <div className="transaction-details">
                     <div>
-                      <span>PHONE NUMBER</span>
-                      <strong>{item.phone}</strong>
+                      <span>REFERENCE</span>
+                      <strong>
+                        {item.payment_reference || "Not available"}
+                      </strong>
                     </div>
 
                     <div>
-                      <span>REFERENCE</span>
-                      <strong>{item.reference}</strong>
+                      <span>PROVIDER REFERENCE</span>
+                      <strong>
+                        {item.provider_reference || "Not available"}
+                      </strong>
                     </div>
 
                     <div>
                       <span>DATE</span>
-                      <strong>{formatDate(item.date)}</strong>
+                      <strong>{formatDate(item.created_at)}</strong>
                     </div>
                   </div>
 
                   <div className="transaction-bottom">
-                    <span className={`transaction-status ${
-                      item.status === "Successful"
-                        ? "status-success"
-                        : "status-failed"
-                    }`}>
+                    <span
+                      className={`transaction-status ${statusClass(
+                        item.status
+                      )}`}
+                    >
                       ● {item.status}
                     </span>
 
-                    <span className="transaction-test-label">
-                      TEST TRANSACTION
+                    <span className="transaction-type">
+                      {transactionLabel(item.transaction_type)}
                     </span>
                   </div>
                 </article>
@@ -183,10 +244,11 @@ export default function TransactionsPage() {
 
         <div className="history-notice">
           <span>ⓘ</span>
+
           <p>
-            These records are currently stored on this
-            browser. Purchases are still in test mode
-            and do not represent live data delivery.
+            These records are retrieved from your secure Zylink
+            account. Only transactions belonging to your account
+            are displayed.
           </p>
         </div>
 
@@ -210,7 +272,7 @@ export default function TransactionsPage() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: #fff;
+          background: white;
           border-bottom: 1px solid #e6edf6;
         }
 
@@ -357,7 +419,7 @@ export default function TransactionsPage() {
         }
 
         .history-empty p {
-          max-width: 350px;
+          max-width: 380px;
           margin: 0 auto 20px;
           line-height: 1.8;
           font-size: 12px;
@@ -384,7 +446,7 @@ export default function TransactionsPage() {
         }
 
         .transaction-top,
-        .transaction-network,
+        .transaction-heading,
         .transaction-bottom {
           display: flex;
           align-items: center;
@@ -392,52 +454,35 @@ export default function TransactionsPage() {
           gap: 12px;
         }
 
-        .transaction-network {
+        .transaction-heading {
           justify-content: flex-start;
+          min-width: 0;
         }
 
-        .network-badge {
+        .transaction-icon {
           width: 40px;
           height: 40px;
+          flex-shrink: 0;
           display: grid;
           place-items: center;
           border-radius: 12px;
           background: #eaf3ff;
           color: #0875df;
-          font-size: 17px;
+          font-size: 19px;
           font-weight: 900;
         }
 
-        .network-badge.mtn {
-          background: #fff1bd;
-          color: #d99a00;
-        }
-
-        .network-badge.airtel {
-          background: #ffe8e9;
-          color: #df2938;
-        }
-
-        .network-badge.glo {
-          background: #e4f8e9;
-          color: #159443;
-        }
-
-        .network-badge.9mobile {
-          background: #e2f7ef;
-          color: #078d66;
-        }
-
-        .transaction-network strong,
-        .transaction-network small {
+        .transaction-heading strong,
+        .transaction-heading small {
           display: block;
+          overflow-wrap: anywhere;
         }
 
-        .transaction-network strong {
+        .transaction-heading strong {
           font-size: 13px;
         }
 
-        .transaction-network small {
+        .transaction-heading small {
           margin-top: 5px;
           color: #8493a6;
           font-size: 10px;
@@ -445,7 +490,8 @@ export default function TransactionsPage() {
 
         .transaction-amount {
           color: #0756b8;
-          font-size: 17px;
+          font-size: 16px;
+          white-space: nowrap;
         }
 
         .transaction-details {
@@ -481,19 +527,22 @@ export default function TransactionsPage() {
           font-weight: 800;
         }
 
-        .status-success {
+        .success {
           color: #15945d;
         }
 
-        .status-failed {
+        .failed {
           color: #d73535;
         }
 
-        .transaction-test-label {
+        .pending {
+          color: #d18b14;
+        }
+
+        .transaction-type {
           color: #91a0b2;
-          font-size: 8px;
+          font-size: 9px;
           font-weight: 800;
-          letter-spacing: .7px;
         }
 
         .history-notice {
@@ -557,8 +606,12 @@ export default function TransactionsPage() {
           .transaction-details {
             grid-template-columns: 1fr 1fr;
           }
+
+          .transaction-amount {
+            font-size: 13px;
+          }
         }
       `}</style>
     </main>
   );
-                  }
+}
