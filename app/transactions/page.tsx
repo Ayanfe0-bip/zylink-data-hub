@@ -258,7 +258,7 @@ export default async function TransactionsPage() {
         </footer>
       </section>
 
-      <style jsx>{`
+      <style>{`
         .transactions-page {
           min-height: 100vh;
           background: #f3f7fc;
