@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
       contractCode,
       customerEmail,
       customerName,
-      getAllAvailableBanks: false,
+      getAllAvailableBanks: true,
     };
 
     accountData[identityType.toLowerCase()] = identityNumber;
