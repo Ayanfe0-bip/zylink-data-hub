@@ -18,5 +18,29 @@ export default async function DashboardPage() {
       ? claims.email
       : "Zylink customer";
 
-  return <DashboardShell email={email} />;
+  const userId =
+    typeof claims.sub === "string"
+      ? claims.sub
+      : null;
+
+  if (!userId) {
+    redirect("/login");
+  }
+
+  const { data: wallet } = await supabase
+    .from("wallets")
+    .select("balance_kobo")
+    .eq("customer_id", userId)
+    .maybeSingle();
+
+  const balanceKobo = Number(
+    wallet?.balance_kobo ?? 0
+  );
+
+  return (
+    <DashboardShell
+      email={email}
+      balanceKobo={balanceKobo}
+    />
+  );
 }
